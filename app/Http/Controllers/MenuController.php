@@ -43,12 +43,12 @@ class MenuController extends Controller
             'price' => 'required|numeric',
             'discount' => 'required|numeric',
             'status' => 'nullable|in:public,private',
-            'img' => 'required|image|mimes:jpeg,png',
+            'img' => 'required|image|mimes:jpeg,png,jpg',
         ]);
         if($validator->fails()){
             return response()->json([
                 'status' => 404,
-                'message' => 'The Validation is wrong'
+                'message' => $validator->fails()
             ]);
         }
 

@@ -16,6 +16,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
     <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
     <meta name="msapplication-TileImage" content="../../../assets/img/favicons/mstile-150x150.png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <meta name="theme-color" content="#ffffff">
@@ -60,6 +61,7 @@
 
     <script src="{{ asset('assets/vendors/popper/popper.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/sweetalert/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/vendors/anchorjs/anchor.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/is/is.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
