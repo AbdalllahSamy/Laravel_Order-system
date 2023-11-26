@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +29,16 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+
+Route::middleware(['auth'])->group(function () {
+
+
+    Route::resource('/users', UserController::class);
+    Route::resource('/menu', MenuController::class);
+    Route::resource('/orders', OrderController::class);
+    Route::resource('/feedbacks', FeedbackController::class);
+
+
 });

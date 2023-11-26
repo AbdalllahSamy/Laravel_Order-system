@@ -45,42 +45,34 @@
                     <hr class="mb-0 navbar-vertical-divider">
                   </div>
                 </div><!-- parent pages-->
-                <a class="nav-link" href="app/calendar.html" role="button">
+                <a class="nav-link" href="{{ route('users.index') }}" role="button">
                   <div class="d-flex align-items-center"> <span class="nav-link-icon"><span class="fas fa-user-friends"></span></span><span class="nav-link-text ps-1">Users</span></div>
                 </a>
-                
-                <a class="nav-link dropdown-indicator" href="#support-desk" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="support-desk">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-glass-cheers"></span></span><span class="nav-link-text ps-1">Support desk</span></div>
+                <a class="nav-link dropdown-indicator" href="#orders" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="orders">
+                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-glass-cheers"></span></span><span class="nav-link-text ps-1">Orders</span></div>
                 </a>
-                <ul class="nav collapse" id="support-desk">
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/table-view.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Table view</span></div>
+                <ul class="nav collapse" id="orders">
+                  <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}">
+                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Show all orders</span></div>
                     </a><!-- more inner pages-->
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/card-view.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Card view</span></div>
+                  <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
+                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
                     </a><!-- more inner pages-->
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/contacts.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Contacts</span></div>
+                </ul>
+                <a class="nav-link dropdown-indicator" href="#menu" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="menu">
+                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open-text"></span></span><span class="nav-link-text ps-1">Menu</span></div>
+                </a>
+                <ul class="nav collapse" id="menu">
+                  <li class="nav-item"><a class="nav-link" href="{{ route('menu.index') }}">
+                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Menu</span></div>
                     </a><!-- more inner pages-->
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/contact-details.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Contact details</span></div>
+                  {{-- <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
+                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
                     </a><!-- more inner pages-->
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/tickets-preview.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Tickets preview</span></div>
-                    </a><!-- more inner pages-->
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/quick-links.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Quick links</span></div>
-                    </a><!-- more inner pages-->
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="app/support-desk/reports.html">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Reports</span></div>
-                    </a><!-- more inner pages-->
-                  </li>
+                  </li> --}}
                 </ul>
               </li>
             </ul>
