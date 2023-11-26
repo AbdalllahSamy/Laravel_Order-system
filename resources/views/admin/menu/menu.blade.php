@@ -147,6 +147,13 @@
 
     <script>
         $(document).ready(function() {
+
+
+
+
+            /* -------------------------------------------------------------------------- */
+            /*                                  Add to DB                                 */
+            /* -------------------------------------------------------------------------- */
             $(document).on('click', '.add_menu_btn', function(e) {
                 e.preventDefault();
                 $('#add_menu_model').modal('show');
@@ -178,7 +185,7 @@
                             console.log(response);
                             $('#add_menu_model').modal('hide')
                             $('#add_form').find('input').val('')
-                            // getBackground()
+                            // getMenu()
                             Swal.fire({
                                 icon: 'success',
                                 title: response.message,
