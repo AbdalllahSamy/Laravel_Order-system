@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +16,14 @@ class MenuController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        $items = Menu::all();
+        return response()->json([
+            'status' => 200,
+            'data' => $items,
+        ]);
+    }
+    public function menu_home()
     {
         return view('admin.menu.menu');
     }
@@ -45,13 +54,19 @@ class MenuController extends Controller
             'status' => 'nullable|in:public,private',
             'img' => 'required|image|mimes:jpeg,png,jpg',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 404,
                 'message' => $validator->fails()
             ]);
         }
 
+        if ($request->discount > $request->price) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Sorry but discount is bigger than price'
+            ]);
+        }
         $menu = new Menu();
         $menu->name = $request->name;
         $menu->desc = $request->desc;
@@ -78,8 +93,8 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $item = $this->find($id);
-        if(!$item){
+        $item = Menu::find($id);
+        if (!$item) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Item not found'
@@ -120,7 +135,7 @@ class MenuController extends Controller
             'status' => 'nullable|in:public,private',
             'img' => 'required|image|mimes:jpeg,png',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 404,
                 'message' => 'The Validation is wrong'
@@ -128,7 +143,7 @@ class MenuController extends Controller
         }
 
         $item = Menu::find($id);
-        if(!$item){
+        if (!$item) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Item not found'
@@ -163,16 +178,19 @@ class MenuController extends Controller
     public function destroy($id)
     {
         $item = Menu::find($id);
-        if(!$item){
+        if (!$item) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Item not found'
             ]);
         }
+        $des = 'upload/menu/' . $item->img;
+        File::delete($des);
         $item->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Item deleted successfully'
+            'message' => 'Item deleted successfully',
+            'data' => $item
         ]);
     }
 }

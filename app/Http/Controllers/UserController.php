@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -12,6 +16,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        $data = User::all();
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ]);
+    }
+    public function user_home()
     {
         return view('admin.users.user');
     }
@@ -34,7 +46,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'email' => 'required|email|max:50',
+            'password' => 'required|string|max:50',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 404,
+                'message' => $validator->fails()
+            ]);
+        }
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $passHash = Hash::make($request->password);
+        $user->password = $passHash;
+        if ($request->file('img')) {
+            $image = time() . 'user.' . $request->img->extension();
+            $request->img->move(public_path('upload/user'), $image);
+            $user->img = $image;
+        }
+        $user->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'User Created Successfully',
+        ]);
     }
 
     /**
@@ -45,7 +85,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $user
+        ]);
     }
 
     /**
@@ -68,7 +119,29 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found'
+            ]);
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $hashPass = Hash::make($request->password);
+        $user->password = $hashPass;
+        if ($request->file('img')) {
+            $des = 'upload/user/' . $user->profile_photo_path;
+            File::delete($des);
+            $image = time() . 'user.' . $request->img->extension();
+            $request->img->move(public_path('upload/user'), $image);
+            $user->img = $image;
+        }
+        $user->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'User updated successfully'
+        ]);
     }
 
     /**
@@ -79,6 +152,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found'
+            ]);
+        }
+
+        $des = 'upload/user/' . $user->profile_photo_path;
+        File::delete($des);
+        $user->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'User deleted successfully'
+        ]);
     }
 }

@@ -35,10 +35,14 @@ Route::middleware([
 Route::middleware(['auth'])->group(function () {
 
 
-    Route::resource('/users', UserController::class);
-    Route::resource('/menu', MenuController::class);
-    Route::resource('/orders', OrderController::class);
-    Route::resource('/feedbacks', FeedbackController::class);
+    Route::resource('/users-action', UserController::class);
+    Route::get('/users', [UserController::class, 'user_home'])->name('user.home');
+    Route::resource('/menu-actions', MenuController::class);
+    Route::get('/menu', [MenuController::class, 'menu_home'])->name('menu.home');
+    Route::resource('/orders-action', OrderController::class);
+    Route::get('/orders', [OrderController::class, 'order_home'])->name('orders.home');
+    Route::resource('/feedbacks-actions', FeedbackController::class);
+    Route::get('/feedbacks', [FeedbackController::class, 'feedback_home'])->name('feedbacks.home');
 
 
 });

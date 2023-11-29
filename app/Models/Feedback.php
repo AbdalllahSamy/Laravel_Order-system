@@ -10,6 +10,9 @@ class Feedback extends Model
     use HasFactory;
     protected $guarded = ['id'];
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+    public function menu(){
+        return $this->belongsTo(Menu::class, 'order_id');
     }
 }

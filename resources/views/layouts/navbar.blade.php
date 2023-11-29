@@ -45,33 +45,33 @@
                     <hr class="mb-0 navbar-vertical-divider">
                   </div>
                 </div><!-- parent pages-->
-                <a class="nav-link" href="{{ route('users.index') }}" role="button">
+                <a class="nav-link" href="{{ route('user.home') }}" role="button">
                   <div class="d-flex align-items-center"> <span class="nav-link-icon"><span class="fas fa-user-friends"></span></span><span class="nav-link-text ps-1">Users</span></div>
                 </a>
                 <a class="nav-link dropdown-indicator" href="#orders" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="orders">
                   <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-glass-cheers"></span></span><span class="nav-link-text ps-1">Orders</span></div>
                 </a>
                 <ul class="nav collapse" id="orders">
-                  <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}">
+                  <li class="nav-item"><a class="nav-link" href="{{ route('orders.home') }}">
                       <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Show all orders</span></div>
-                    </a><!-- more inner pages-->
+                    </a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
+                  <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.home') }}">
                       <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
-                    </a><!-- more inner pages-->
+                    </a>
                   </li>
                 </ul>
                 <a class="nav-link dropdown-indicator" href="#menu" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="menu">
                   <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open-text"></span></span><span class="nav-link-text ps-1">Menu</span></div>
                 </a>
                 <ul class="nav collapse" id="menu">
-                  <li class="nav-item"><a class="nav-link" href="{{ route('menu.index') }}">
+                  <li class="nav-item"><a class="nav-link" href="{{ route('menu.home') }}">
                       <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Menu</span></div>
-                    </a><!-- more inner pages-->
+                    </a>
                   </li>
                   {{-- <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
                       <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
-                    </a><!-- more inner pages-->
+                    </a>
                   </li> --}}
                 </ul>
               </li>

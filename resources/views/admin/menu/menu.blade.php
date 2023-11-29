@@ -33,6 +33,7 @@
                         <th class=" text-center">Price</th>
                         <th class=" text-center">Discount</th>
                         <th class="text-center">Status</th>
+                        <th class="text-center">Control</th>
                     </tr>
                 </thead>
                 <tbody class="list menu_table">
@@ -148,7 +149,62 @@
     <script>
         $(document).ready(function() {
 
+            getMenu()
 
+            function getMenu() {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    url: "/menu-actions",
+                    success: function(response) {
+                        $('.menu_table').html('')
+                        $.each(response.data, function(key, item) {
+                            if (item.img) {
+                                var menu_img = '{{ asset('upload/menu') }}/' + item.img
+                            } else {
+                                var menu_img = '{{ asset('assets/img/user.png') }}'
+                            }
+                            $('.menu_table').append('<tr >\
+                                        <td class="pt-3 text-center">\
+                                            <span class="h6">#' + item.id + '</span>\
+                                        </td>\
+                                        <td class="align-middle name  text-center  min-w-100">\
+                                            <div class="avatar avatar-3xl">\
+                                                <img class="rounded-circle" src=" ' + menu_img + '" alt="" />\
+                                            </div>\
+                                        </td>\
+                                        <td class="align-middle type  text-center  min-w-100">\
+                                            <h6>' + item.name + '  </h6> \
+                                        </td>\
+                                        <td class="align-middle min-w-100 Hours text-center">\
+                                            <h6>' + item.desc + ' </h6> \
+                                        </td>\
+                                        <td class="align-middle min-w-100 diamonds text-center">\
+                                            <h6>' + item.price + ' </h6> \
+                                        </td>\
+                                        <td class="align-middle min-w-100 Days text-center">\
+                                            <h6>' + item.discount + '</h6> \
+                                        </td>\
+                                        <td class="align-middle min-w-100  Agency_Share text-center">\
+                                            <h6>' + item.status + '</h6> \
+                                        </td>\
+                                        <td class="align-middle min-w-100">\
+                                            <div class="d-flex">\
+                                                <button class="btn btn-falcon-info   w-100 me-3 update_btn_item" value="' +
+                                item.id + '"> Update </button>\
+                                                <button class="btn btn-falcon-danger w-100 delete_btn_item" value="' + item
+                                .id + '"> Delete</button>\
+                                            </div>\
+                                        </td>\
+                                    </tr>\
+                                ')
+                        });
+                    }
+                })
+            }
 
 
             /* -------------------------------------------------------------------------- */
@@ -167,25 +223,21 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: "post",
-                    url: "/menu",
+                    url: "/menu-actions",
                     dataType: "json",
                     data: menuItem,
                     contentType: false,
                     processData: false,
                     success: function(response) {
                         if (response.status == 400) {
-                            $.each(response.errors, function(key, err_values) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: key,
-                                    text: err_values
-                                })
+                            Swal.fire({
+                                icon: 'error',
+                                title: response.message,
                             });
                         } else {
-                            console.log(response);
                             $('#add_menu_model').modal('hide')
                             $('#add_form').find('input').val('')
-                            // getMenu()
+                            getMenu()
                             Swal.fire({
                                 icon: 'success',
                                 title: response.message,
@@ -195,6 +247,82 @@
                     }
                 });
             });
+
+            /* -------------------------------------------------------------------------- */
+            /*                                   Delete                                   */
+            /* -------------------------------------------------------------------------- */
+
+            $(document).on('click', '.delete_btn_item', function() {
+                var item_id = $(this).val();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    url: "/menu-actions/" + item_id,
+                    success: function(response) {
+                        if (response.status == 404) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry',
+                                text: response.message,
+                            })
+                        } else {
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-falcon-info  ',
+                                    cancelButton: 'btn btn-falcon-danger'
+                                },
+                                buttonsStyling: false
+                            })
+
+                            swalWithBootstrapButtons.fire({
+                                title: 'You want to delete ' + response.data.name +
+                                    ' !!?',
+                                text: 'Make sure',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    detele_item(response.data.id)
+                                    swalWithBootstrapButtons.fire(
+                                        'Deleted file',
+                                        'Item deleted successfully',
+                                        'success'
+                                    )
+                                } else if (
+                                    /* Read more about handling dismissals below */
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                    swalWithBootstrapButtons.fire(
+                                        'Cancelled',
+                                        'Thanks',
+                                        'error'
+                                    )
+                                }
+                            })
+                        }
+                    }
+                })
+            });
+
+            function detele_item(item_id) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'DELETE',
+                    dataType: 'json',
+                    url: "/menu-actions/" + item_id,
+                    success: function(response) {
+                        getMenu()
+                    }
+                })
+            }
         })
     </script>
 @endsection
