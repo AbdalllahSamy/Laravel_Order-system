@@ -27,6 +27,7 @@ class OrderController extends Controller
         return view('admin.orders.order');
     }
     
+    
 
     /**
      * Store a newly created resource in storage.

@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends Model
+class Bag extends Model
 {
     use HasFactory;
-
-    public function bag(){
-        return $this->hasMany(Bag::class);
+    public function menu(){
+        return $this->belongsTo(Menu::class, 'order_id');
     }
 }
