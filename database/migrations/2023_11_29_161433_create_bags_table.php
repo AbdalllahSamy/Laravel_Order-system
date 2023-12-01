@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('menus')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

@@ -56,7 +56,7 @@ class MenuController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => 404,
+                'status' => 400,
                 'message' => $validator->fails()
             ]);
         }

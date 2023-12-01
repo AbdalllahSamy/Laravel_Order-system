@@ -48,8 +48,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/orders', [UserOrdersController::class, 'order_user_home'])->name('orders');
-        Route::resource('/bag', UserBagController::class);
+        Route::post('/orders', [UserOrdersController::class, 'store']);
+        Route::resource('/bag-action', UserBagController::class);
         Route::get('/myBagCount', [UserBagController::class, 'allMyBagCount']);
+        Route::get('/mybag', [UserBagController::class, 'myBag'])->name('bag.home');
     });
 
 });

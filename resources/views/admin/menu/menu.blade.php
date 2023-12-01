@@ -232,7 +232,7 @@
                         if (response.status == 400) {
                             Swal.fire({
                                 icon: 'error',
-                                title: response.message,
+                                title: 'Please fill all data',
                             });
                         } else {
                             $('#add_menu_model').modal('hide')

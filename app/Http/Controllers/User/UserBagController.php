@@ -18,7 +18,7 @@ class UserBagController extends Controller
      */
     public function index()
     {
-        $myItems = Bag::where('customer_id', Auth::user())->with('order')->get();
+        $myItems = Bag::where('customer_id', Auth::user()->id)->with('menu')->get();
         return response()->json([
             'status' => 200,
             'data' => $myItems,
@@ -26,11 +26,15 @@ class UserBagController extends Controller
     }
 
     public function allMyBagCount(){
-        $myItemCount = Bag::where('customer_id', Auth::user())->with('order')->count();
+        $myItemCount = Bag::where('customer_id', Auth::user()->id)->with('order')->count();
         return response()->json([
             'status' => 200,
             'data' => $myItemCount,
         ]);
+    }
+
+    public function myBag(){
+        return view('user.bags.bag');
     }
 
     /**
@@ -52,14 +56,23 @@ class UserBagController extends Controller
         ]);
         if($validator->fails()){
             return response()->json([
-                'status' => 404,
+                'status' => 400,
                 'message' => 'There is no order in your bag'
             ]);
         }
-
+        $bag = Bag::where('customer_id', $request->user()->id)->where('order_id', $request->menu_id)->first();
+        if($bag){
+            $bag->quantity += $request->quantity;
+            $bag->update();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Item quantity updated successfully'
+            ]);
+        }
         $bag = new Bag();
         $bag->customer_id = $request->user()->id;
         $bag->order_id = $request->menu_id;
+        $bag->quantity = $request->quantity;
         $bag->save();
         return response()->json([
             'status' => 200,
@@ -75,7 +88,17 @@ class UserBagController extends Controller
      */
     public function show($id)
     {
-        //
+        $bag = Bag::with('menu')->first();
+        if(!$bag){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Item not found'
+            ]);
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => $bag
+        ]);
     }
 
     /**
