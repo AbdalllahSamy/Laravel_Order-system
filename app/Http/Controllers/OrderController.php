@@ -69,7 +69,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $item = Order::with('user', 'item')->find($id);
+        $item = Order::find($id);
         if(!$item){
             return response()->json([
                 'status' => 404,
@@ -105,7 +105,6 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $validator = Validator::make($request->all(),[
-            'item_id' => 'required|exists:menus,id',
             'status' => 'required|string'
         ]);
         if($validator->fails()){
@@ -115,16 +114,7 @@ class OrderController extends Controller
             ]);
         }
 
-        if(!($order->customer_id == $request->user()->id)){
-            return response()->json([
-                'status' => 404,
-                'message' => 'You don\'t have permission for this order'
-            ]);
-        }
-
         $order->status = $request->status;
-        $order->quantity = $request->quantity;
-        $order->total_price = $request->total_price;
         $order->update();
         return response()->json([
             'status' => 200,

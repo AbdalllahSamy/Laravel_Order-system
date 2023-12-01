@@ -9,12 +9,10 @@ class Order extends Model
 {
     use HasFactory;
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
     public function item(){
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class, 'item_id');
     }
-
-    
 }

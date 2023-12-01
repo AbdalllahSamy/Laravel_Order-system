@@ -32,7 +32,7 @@
                                 </div>
                             </th>
                             <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">User Info</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="email">Order Info</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="email">Item Info</th>
                             <th class="sort pe-1 align-middle white-space-nowrap" data-sort="phone">Comment</th>
                             <th class="sort pe-1 align-middle white-space-nowrap" data-sort="joined">Created At</th>
                             <th class="align-middle no-sort"></th>
