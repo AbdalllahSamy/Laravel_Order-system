@@ -57,7 +57,7 @@ class UserBagController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
-                'message' => 'There is no order in your bag'
+                'message' => 'Error in validation'
             ]);
         }
         $bag = Bag::where('customer_id', $request->user()->id)->where('order_id', $request->menu_id)->first();

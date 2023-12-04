@@ -38,17 +38,14 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-between-center px-3">
-                                {{-- <div>
-                                    <span class="fa fa-star text-warning"></span>
-                                    <span class="fa fa-star text-warning"></span>
-                                    <span class="fa fa-star text-warning"></span>
-                                    <span class="fa fa-star text-warning"></span>
-                                    <span class="fa fa-star text-300"></span>
-                                </div> --}}
                                 <div class="input-group input-group-sm" data-quantity="data-quantity">
-                                    <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity" data-type="minus">-</button>
-                                    <input class="form-control text-center order-quantity input-spin-none" type="number" min="1" value="1" aria-label="Amount (to the nearest dollar)" style="max-width: 50px">
-                                    <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity" data-type="plus">+</button>
+                                    <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
+                                        data-type="minus">-</button>
+                                    <input class="form-control text-center order-quantity input-spin-none" type="number"
+                                        min="1" value="1" aria-label="Amount (to the nearest dollar)"
+                                        style="max-width: 50px">
+                                    <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
+                                        data-type="plus">+</button>
                                 </div>
                                 <div>
                                     <button class="btn btn-sm btn-falcon-default add_my_bag" data-bs-toggle="tooltip"
@@ -81,7 +78,12 @@
             $(document).on('click', '.add_my_bag', function(e) {
                 e.preventDefault();
                 var item_id = $(this).val();
+                console.log(item_id);
+                // var container = $(this).closest('.input-group');
+                // var quantityInput = container.find('.order-quantity');
+                // console.log(quantityInput);
                 var quantity = $('.order-quantity').val();
+                console.log(quantity);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
