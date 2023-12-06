@@ -74,16 +74,11 @@
     </div>
     <script>
         $(document).ready(function() {
-
+            
             $(document).on('click', '.add_my_bag', function(e) {
                 e.preventDefault();
                 var item_id = $(this).val();
-                console.log(item_id);
-                // var container = $(this).closest('.input-group');
-                // var quantityInput = container.find('.order-quantity');
-                // console.log(quantityInput);
                 var quantity = $('.order-quantity').val();
-                console.log(quantity);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

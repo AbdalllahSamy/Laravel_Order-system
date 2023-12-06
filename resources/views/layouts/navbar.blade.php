@@ -31,50 +31,59 @@
         <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
           <div class="navbar-vertical-content scrollbar">
             <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
-              <li class="nav-item">
-                <!-- parent pages-->
-                <a class="nav-link" href="{{ url('/dashboard') }}" aria-expanded="false" aria-controls="dashboard">
-                  <div class="d-flex align-items-center after-delete"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span></div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <!-- label-->
-                <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-                  <div class="col-auto navbar-vertical-label">Users</div>
-                  <div class="col ps-0">
-                    <hr class="mb-0 navbar-vertical-divider">
-                  </div>
-                </div><!-- parent pages-->
-                <a class="nav-link" href="{{ route('user.home') }}" role="button">
-                  <div class="d-flex align-items-center"> <span class="nav-link-icon"><span class="fas fa-user-friends"></span></span><span class="nav-link-text ps-1">Users</span></div>
-                </a>
-                <a class="nav-link dropdown-indicator" href="#orders" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="orders">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-glass-cheers"></span></span><span class="nav-link-text ps-1">Orders</span></div>
-                </a>
-                <ul class="nav collapse" id="orders">
-                  <li class="nav-item"><a class="nav-link" href="{{ route('orders.home') }}">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Show all orders</span></div>
-                    </a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.home') }}">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
-                    </a>
-                  </li>
-                </ul>
-                <a class="nav-link dropdown-indicator" href="#menu" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="menu">
-                  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open-text"></span></span><span class="nav-link-text ps-1">Menu</span></div>
-                </a>
-                <ul class="nav collapse" id="menu">
-                  <li class="nav-item"><a class="nav-link" href="{{ route('menu.home') }}">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Menu</span></div>
-                    </a>
-                  </li>
-                  {{-- <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
-                      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
-                    </a>
-                  </li> --}}
-                </ul>
-              </li>
+              @if (Auth::user()->type == 1)
+                <li class="nav-item">
+                  <!-- parent pages-->
+                  <a class="nav-link" href="{{ url('/dashboard') }}" aria-expanded="false" aria-controls="dashboard">
+                    <div class="d-flex align-items-center after-delete"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span></div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <!-- label-->
+                  <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+                    <div class="col-auto navbar-vertical-label">Users</div>
+                    <div class="col ps-0">
+                      <hr class="mb-0 navbar-vertical-divider">
+                    </div>
+                  </div><!-- parent pages-->
+                  <a class="nav-link" href="{{ route('user.home') }}" role="button">
+                    <div class="d-flex align-items-center"> <span class="nav-link-icon"><span class="fas fa-user-friends"></span></span><span class="nav-link-text ps-1">Users</span></div>
+                  </a>
+                  <a class="nav-link dropdown-indicator" href="#orders" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="orders">
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-glass-cheers"></span></span><span class="nav-link-text ps-1">Orders</span></div>
+                  </a>
+                  <ul class="nav collapse" id="orders">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('orders.home') }}">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Show all orders</span></div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.home') }}">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
+                      </a>
+                    </li>
+                  </ul>
+                  <a class="nav-link dropdown-indicator" href="#menu" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="menu">
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open-text"></span></span><span class="nav-link-text ps-1">Menu</span></div>
+                  </a>
+                  <ul class="nav collapse" id="menu">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('menu.home') }}">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Menu</span></div>
+                      </a>
+                    </li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('feedbacks.index') }}">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feedbacks</span></div>
+                      </a>
+                    </li> --}}
+                  </ul>
+                </li>
+              @elseif (Auth::user()->type == 2)
+                <li class="nav-item">
+                  <!-- parent pages-->
+                  <a class="nav-link" href="{{ url('/users/orders') }}" aria-expanded="false" aria-controls="dashboard">
+                    <div class="d-flex align-items-center after-delete"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">All Orders</span></div>
+                  </a>
+                </li>
+              @endif
             </ul>
           </div>
         </div>
@@ -491,9 +500,11 @@
             <li class="nav-item">
               <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="theme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to light theme"><span class="fas fa-sun fs-0"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to dark theme"><span class="fas fa-moon fs-0"></span></label></div>
             </li>
-            <li class="nav-item d-none d-sm-block">
-              <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" href="{{ route('bag.home') }}"><span class="fas fa-shopping-cart" data-fa-transform="shrink-7" style="font-size: 33px;"></span><span class="notification-indicator-number"></span></a>
-            </li>
+            @if (Auth::user()->type == 2)    
+              <li class="nav-item d-none d-sm-block">
+                <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" href="{{ route('bag.home') }}"><span class="fas fa-shopping-cart" data-fa-transform="shrink-7" style="font-size: 33px;"></span><span class="notification-indicator-number"></span></a>
+              </li>
+            @endif
             <li class="nav-item dropdown">
               <a class="nav-link notification-indicator notification-indicator-primary px-0 fa-icon-wait" id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell" data-fa-transform="shrink-6" style="font-size: 33px;"></span></a>
               <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end dropdown-menu-card dropdown-menu-notification dropdown-caret-bg" aria-labelledby="navbarDropdownNotification">
