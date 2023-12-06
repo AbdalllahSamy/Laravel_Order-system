@@ -48,56 +48,128 @@
   <script>
     $(document).ready(function() {
 
-getUsers()
+      getUsers()
 
-function getUsers() {
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: 'GET',
-        dataType: 'json',
-        url: "/users-action",
-        success: function(response) {
-            $('.users-table').html('')
-            $.each(response.data, function(key, item) {
-                if (item.profile_photo_path) {
-                    var user_img = '{{ asset('upload/user') }}/' + item.profile_photo_path
-                } else {
-                    var user_img = '{{ asset('assets/img/user.png') }}'
-                }
-                $('.users-table').append('<tr class="btn-reveal-trigger">\
-              <td class="align-middle py-2" style="width: 28px;">\
-                <div class="form-check fs-0 mb-0 d-flex align-items-center"><input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row"></div>\
-              </td>\
-              <td class="name align-middle white-space-nowrap py-2"><a href="customer-details.html">\
-                  <div class="d-flex d-flex align-items-center">\
-                    <div class="avatar avatar-xl me-2">\
-                      <div class="avatar-name rounded-circle"><span>RA</span></div>\
-                    </div>\
-                    <div class="flex-1">\
-                      <h5 class="mb-0 fs--1">'+item.name+'</h5>\
-                    </div>\
-                  </div>\
-                </a></td>\
-              <td class="email align-middle py-2"><a href="mailto:ricky@example.com">'+item.email+'</a></td>\
-              <td class="phone align-middle white-space-nowrap py-2"><a href="tel:2012001851">(201) 200-1851</a></td>\
-              <td class="address align-middle white-space-nowrap ps-5 py-2">2392 Main Avenue, Penasauka, New Jersey 02139</td>\
-              <td class="joined align-middle py-2">30/03/2018</td>\
-              <td class="align-middle white-space-nowrap py-2 text-end">\
-                <div class="dropdown font-sans-serif position-static"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>\
-                  <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-0">\
-                    <div class="py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a></div>\
-                  </div>\
-                </div>\
-              </td>\
-            </tr>\
-            ')
+      function getUsers() {
+          $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type: 'GET',
+              dataType: 'json',
+              url: "/users-action",
+              success: function(response) {
+                  $('.users-table').html('')
+                  $.each(response.data, function(key, item) {
+                      if (item.profile_photo_path) {
+                          var user_img = '{{ asset('upload/user') }}/' + item.profile_photo_path
+                      } else {
+                          var user_img = '{{ asset('assets/img/user.png') }}'
+                      }
+                      $('.users-table').append('<tr class="btn-reveal-trigger">\
+                    <td class="align-middle py-2" style="width: 28px;">\
+                      <div class="form-check fs-0 mb-0 d-flex align-items-center"><input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row"></div>\
+                    </td>\
+                    <td class="name align-middle white-space-nowrap py-2"><a href="customer-details.html">\
+                        <div class="d-flex d-flex align-items-center">\
+                          <div class="avatar avatar-xl me-2">\
+                            <div class="avatar-name rounded-circle"><span>RA</span></div>\
+                          </div>\
+                          <div class="flex-1">\
+                            <h5 class="mb-0 fs--1">'+item.name+'</h5>\
+                          </div>\
+                        </div>\
+                      </a></td>\
+                    <td class="email align-middle py-2"><a href="mailto:ricky@example.com">'+item.email+'</a></td>\
+                    <td class="phone align-middle white-space-nowrap py-2"><a href="tel:2012001851">(201) 200-1851</a></td>\
+                    <td class="address align-middle white-space-nowrap ps-5 py-2">2392 Main Avenue, Penasauka, New Jersey 02139</td>\
+                    <td class="joined align-middle py-2">30/03/2018</td>\
+                    <td class="align-middle white-space-nowrap py-2 text-end">\
+                      <div class="dropdown font-sans-serif position-static"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>\
+                        <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-0">\
+                          <div class="py-2"><button class="dropdown-item" value="'+item.id+'">Edit</button><button class="dropdown-item text-danger delete_btn_item" value="'+item.id+'">Delete</button></div>\
+                        </div>\
+                      </div>\
+                    </td>\
+                  </tr>\
+                  ')
+                  });
+              }
+          })
+          
+      }
+
+      $(document).on('click', '.delete_btn_item', function() {
+                var user_id = $(this).val();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    url: "/users-action/" + user_id,
+                    success: function(response) {
+                        if (response.status == 404) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry',
+                                text: response.message,
+                            })
+                        } else {
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-falcon-info  ',
+                                    cancelButton: 'btn btn-falcon-danger'
+                                },
+                                buttonsStyling: false
+                            })
+
+                            swalWithBootstrapButtons.fire({
+                                title: 'You want to delete ' + response.data.name +
+                                    ' !!?',
+                                text: 'Make sure',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    detele_item(response.data.id)
+                                    swalWithBootstrapButtons.fire(
+                                        'Deleted file',
+                                        'Item deleted successfully',
+                                        'success'
+                                    )
+                                } else if (
+                                    /* Read more about handling dismissals below */
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                    swalWithBootstrapButtons.fire(
+                                        'Cancelled',
+                                        'Thanks',
+                                        'error'
+                                    )
+                                }
+                            })
+                        }
+                    }
+                })
             });
-        }
+
+            function detele_item(user_id) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'DELETE',
+                    dataType: 'json',
+                    url: "/users-action/" + user_id,
+                    success: function(response) {
+                      getUsers()
+                    }
+                })
+            }
     })
-    
-}
-})
   </script>
 @endsection

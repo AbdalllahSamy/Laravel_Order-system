@@ -47,6 +47,7 @@
                                     <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
                                         data-type="plus">+</button>
                                 </div>
+                                <button class="btn btn-sm btn-falcon-default me-1 make_feedback_btn" value="{{ $item->id }}">Feedback</button>
                                 <div>
                                     <button class="btn btn-sm btn-falcon-default add_my_bag" data-bs-toggle="tooltip"
                                         data-bs-placement="top" value="{{ $item->id }}" aria-label="Add to Cart"
@@ -69,6 +70,38 @@
                     class="btn btn-sm btn-falcon-default me-2" href="#!">35</a><button
                     class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                     aria-label="Next" data-bs-original-title="Next"><span class="fas fa-chevron-right"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="make_feedback_model" tabindex="-1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg mt-6" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-content position-relative">
+                    <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                            <h4 class="mb-1" id="modalExampleDemoLabel">Add Item To Menu</h4>
+                        </div>
+                        <form action="#" method="POST" id ="add_form" enctype="multipart/form-data">
+                            @csrf
+                            <div class="p-4">
+                                <div class="form-Roles mt-2">
+                                    <label class="form-label">Feedback</label>
+                                    <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <input type="hidden" value="" name="order_id" class="item_id">
+                                </div>
+                            </div>
+                            <div class="modal-footer mt-3">
+                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary add_menu" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -129,6 +162,44 @@
                     }
                 })
             }
+
+            $(document).on('click', '.make_feedback_btn', function(e) {
+                e.preventDefault();
+                $('.item_id').val(this.value);
+                $('#make_feedback_model').modal('show');
+            });
+
+            $('#add_form').submit(function(e) {
+                e.preventDefault();
+                var menuItem = new FormData(this);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "post",
+                    url: "/users/feedbacks-store",
+                    dataType: "json",
+                    data: menuItem,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == 404) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Please fill all data',
+                            });
+                        } else {
+                            $('#make_feedback_model').modal('hide')
+                            $('#add_form').find('input').val('')
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                            })
+
+                        }
+                    }
+                });
+            });
         })
     </script>
 @endsection

@@ -45,13 +45,13 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => 'required|numeric|exists:orders,id',
+            'order_id' => 'required|exists:menus,id',
             'comment' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 404,
-                'message' => $validator->fails()
+                'message' => 'error in validation'
             ]);
         }
         $feedback = new Feedback();

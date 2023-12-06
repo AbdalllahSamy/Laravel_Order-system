@@ -193,7 +193,7 @@
                                 reverseButtons: true
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    detele_item(response.data.id)
+                                    detele_item(item_id)
                                     swalWithBootstrapButtons.fire(
                                         'Deleted file',
                                         'Item deleted successfully',
