@@ -189,7 +189,7 @@
     <!-- ===============================================-->
     <main class="main" id="top">
       <nav class="navbar navbar-standard navbar-expand-lg fixed-top navbar-dark" data-navbar-darken-on-scroll="data-navbar-darken-on-scroll" style="background-image: none; transition: none 0s ease 0s;">
-        <div class="container"><a class="navbar-brand" href="../index.html"><span class="text-white dark__text-white">Falcon</span></a><button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand" href="../index.html"><span class="text-white dark__text-white">Main Resturant</span></a><button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item d-flex align-items-center me-2">
@@ -280,10 +280,10 @@
         <div class="container">
           <div class="row flex-center pt-8 pt-lg-10 pb-lg-9 pb-xl-0">
             <div class="col-md-11 col-lg-8 col-xl-4 pb-7 pb-xl-9 text-center text-xl-start"><a class="btn btn-outline-danger mb-4 fs--1 border-2 rounded-pill" href="#!"><span class="me-2" role="img" aria-label="Gift">🎁</span>Become a pro</a>
-              <h1 class="text-white fw-light">Bring <span class="typed-text fw-bold" data-typed-text="[&quot;design&quot;,&quot;beauty&quot;,&quot;elegance&quot;,&quot;perfection&quot;]">pe</span><span class="typed-cursor" aria-hidden="true">|</span><br>to your webapp</h1>
+              <h1 class="text-white fw-light">Bring <span class="typed-text fw-bold" data-typed-text="[&quot;design&quot;,&quot;beauty&quot;,&quot;elegance&quot;,&quot;perfection&quot;]">pe</span><span class="typed-cursor" aria-hidden="true">|</span><br>to your Resturant</h1>
               <p class="lead text-white opacity-75">With the power of Falcon, you can now focus only on functionaries for your digital products, while leaving the UI design on us!</p><a class="btn btn-outline-light border-2 rounded-pill btn-lg mt-4 fs-0 py-2" href="#!">Start building with the falcon<svg class="svg-inline--fa fa-play fa-w-14 ms-2" data-fa-transform="shrink-6 down-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="play" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.4375em 0.5625em;"><g transform="translate(224 256)"><g transform="translate(0, 32)  scale(0.625, 0.625)  rotate(0 0 0)"><path fill="currentColor" d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" transform="translate(-224 -256)"></path></g></g></svg><!-- <span class="fas fa-play ms-2" data-fa-transform="shrink-6 down-1"></span> Font Awesome fontawesome.com --></a>
             </div>
-            <div class="col-xl-7 offset-xl-1 align-self-end mt-4 mt-xl-0"><a class="img-landing-banner rounded" href="{{ route('dashboard') }}"><img class="img-fluid" src="../assets/img/generic/dashboard-alt.jpg" alt=""></a></div>
+            <div class="col-xl-7 offset-xl-1 align-self-end mt-1 mt-xl-0"><a class=" rounded" href="{{ route('dashboard') }}"><img class="img-fluid" src="{{ asset('assets/img/resturant.jpg') }}" alt=""></a></div>
           </div>
         </div><!-- end of .container-->
       </section><!-- <section> close ============================-->
