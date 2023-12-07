@@ -31,9 +31,9 @@ class UserOrdersController extends Controller
 
     public function store(Request $request){
         $itemIds = $request->input('items');
-        $bags = Bag::whereIn('id', $itemIds)->with('menu')->get();
+        $bags = Bag::whereIn('id', $itemIds)->with('menu', 'user')->get();
         foreach ($bags as $bag) {
-            if($bag->menu->discount){
+            if($bag->menu->discount && $bag->user->prime){
                 $price = $bag->menu->discount * $bag->quantity;
             }else{
                 $price = $bag->menu->price * $bag->quantity;

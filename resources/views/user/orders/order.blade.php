@@ -26,9 +26,9 @@
                                             href="product-details.html">{{ $item->name }}</a></h5>
                                     <p class="fs--1 mb-3"><a class="text-500" href="#!">{{ $item->desc }}</a></p>
                                     <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
-                                        ${{ $item->discount ? $item->discount : $item->price }}
+                                        ${{ ($item->discount && auth()->user()->prime) ? $item->discount : $item->price }}
                                         <del class="ms-2 fs--1 text-500">
-                                            @if ($item->discount)
+                                            @if ($item->discount && auth()->user()->prime)
                                                 $ {{ $item->price }}
                                             @endif
                                         </del>

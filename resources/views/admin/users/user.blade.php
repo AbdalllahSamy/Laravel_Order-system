@@ -29,6 +29,7 @@
               </th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">Name</th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="email">Email</th>
+              <th class="sort pe-1 align-middle white-space-nowrap" data-sort="type">type</th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="joined">Joined</th>
               <th class="align-middle no-sort"></th>
             </tr>
@@ -88,6 +89,62 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="update_user_model" tabindex="-1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg mt-6" role="document">
+      <div class="modal-content border-0">
+          <div class="modal-content position-relative">
+              <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                  <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                      data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-0">
+                  <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                      <h4 class="mb-1" id="modalExampleDemoLabel">Add User</h4>
+                  </div>
+                  <form action="#" method="POST" id ="update_form" enctype="multipart/form-data">
+                      @csrf
+                      @method('PUT')
+                      <div class="p-4">
+                          <div class="row" style="justify-content:space-evenly">
+                              <div class="col-lg-6 form-Roles">
+                                  <label class="form-label">Name</label>
+                                  <input type="text" name="name" class="form-control name_en">
+                              </div>
+
+                              <div class=" col-lg-6 form-Roles">
+                                  <label class="form-label">Email</label>
+                                  <input type="email" name="email" class="form-control name_ar">
+                              </div>
+                              <div class=" col-lg-12 form-Roles mt-2">
+                                  <label class="form-label">Password</label>
+                                  <input type="password" name="password" class="form-control name_ar">
+                              </div>
+                              <div class=" col-lg-12 form-Roles mt-2">
+                                  <label class="form-label">Image</label>
+                                  <input type="file" name="img" class="form-control value">
+                                  <input type="hidden" value="" class="update-item__id">
+                              </div>
+                              <div class="col-lg-12 form-Roles mt-2">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="premium" aria-label="Default select example">
+                                    <option selected value="0">Open this select menu</option>
+                                    <option value="0">Default</option>
+                                    <option value="1">Premium</option>
+                                </select>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer mt-3">
+                          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary add_menu" type="submit">Save</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
   <script>
     $(document).ready(function() {
 
@@ -115,6 +172,11 @@
                       } else {
                           var user_img = '{{ asset('assets/img/user.png') }}'
                       }
+                      if(item.prime == 1){
+                        type = 'Premium';
+                      }else{
+                        type = 'Default';
+                      }
                       $('.users-table').append('<tr class="btn-reveal-trigger">\
                     <td class="align-middle py-2" style="width: 28px;">\
                       <div class="form-check fs-0 mb-0 d-flex align-items-center"><input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row"></div>\
@@ -130,11 +192,12 @@
                         </div>\
                       </a></td>\
                     <td class="email align-middle py-2"><a href="mailto:ricky@example.com">'+item.email+'</a></td>\
+                    <td class="joined align-middle py-2">'+type+'</td>\
                     <td class="joined align-middle py-2">'+formattedDate+'</td>\
                     <td class="align-middle white-space-nowrap py-2 text-end">\
                       <div class="dropdown font-sans-serif position-static"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>\
                         <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-0">\
-                          <div class="py-2"><button class="dropdown-item" value="'+item.id+'">Edit</button><button class="dropdown-item text-danger delete_btn_item" value="'+item.id+'">Delete</button></div>\
+                          <div class="py-2"><button class="dropdown-item update_btn_item" value="'+item.id+'">Edit</button><button class="dropdown-item text-danger delete_btn_item" value="'+item.id+'">Delete</button></div>\
                         </div>\
                       </div>\
                     </td>\
@@ -174,6 +237,47 @@
                   } else {
                       $('#add_user_model').modal('hide')
                       $('#add_form').find('input').val('')
+                      getUsers()
+                      Swal.fire({
+                          icon: 'success',
+                          title: response.message,
+                      })
+                  }
+              }
+          });
+      });
+
+
+      $(document).on('click', '.update_btn_item', function(e) {
+          e.preventDefault();
+          $('.update-item__id').val($(this).val())
+          $('#update_user_model').modal('show');
+      });
+
+      $('#update_form').submit(function(e) {
+          e.preventDefault();
+          var menuItem = new FormData(this);
+          let item_id= $('.update-item__id').val();
+          $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type: "POST",
+              url: "/users-action/" + item_id,
+              dataType: "json",
+              data: menuItem,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  if (response.status == 404) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Please fill all data',
+                      });
+                  } else {
+                      $('#update_user_model').modal('hide')
+                      // $('#update_form').find('input').val('')
+                      $('.update-item__id').val("")
                       getUsers()
                       Swal.fire({
                           icon: 'success',

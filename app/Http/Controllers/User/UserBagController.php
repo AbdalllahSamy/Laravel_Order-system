@@ -18,7 +18,7 @@ class UserBagController extends Controller
      */
     public function index()
     {
-        $myItems = Bag::where('customer_id', Auth::user()->id)->with('menu')->get();
+        $myItems = Bag::where('customer_id', Auth::user()->id)->with('menu', 'user')->get();
         return response()->json([
             'status' => 200,
             'data' => $myItems,

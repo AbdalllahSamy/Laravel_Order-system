@@ -127,21 +127,6 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:20',
-            'desc' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'discount' => 'required|numeric',
-            'status' => 'nullable|in:public,private',
-            'img' => 'required|image|mimes:jpeg,png',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'The Validation is wrong'
-            ]);
-        }
-
         $item = Menu::find($id);
         if (!$item) {
             return response()->json([
@@ -149,12 +134,40 @@ class MenuController extends Controller
                 'message' => 'Item not found'
             ]);
         }
+        if($request->price < $item->discount && !$request->discount){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Sorry the price is lower than discount price'
+            ]);
+        }
+        if($request->discount > $item->price && !$request->price){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Sorry the discount is bigger than main price'
+            ]);
+        }
 
-        $item->name = $request->name;
-        $item->desc = $request->desc;
-        $item->price = $request->price;
-        $item->discount = $request->discount;
-        $item->status = $request->status;
+        if($request->discount > $request->price && $request->price && $request->discount){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Sorry the discount is bigger than main price'
+            ]);
+        }
+        if($request->name){
+            $item->name = $request->name;
+        }
+        if($request->desc){
+            $item->desc = $request->desc;
+        }
+        if($request->price){
+            $item->price = $request->price;
+        }
+        if($request->discount){
+            $item->discount = $request->discount;
+        }
+        if($request->status && $request->status != 0){
+            $item->status = $request->status;
+        }
         if ($request->hasFile('img')) {
             $des = 'upload/menu/' . $item->img;
             File::delete($des);

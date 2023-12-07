@@ -86,7 +86,7 @@
                                 var orderStatus =
                                     '<span class="badge badge rounded-pill d-block badge-soft-warning">Pending<span class="ms-1 fas fa-stream" data-fa-transform="shrink-2"></span></span>'
                             }else if(item.status == 'processing'){
-                              var orderStatus = '<span class="badge badge rounded-pill d-block badge-soft-primary">Pending<span class="ms-1 fas fa-redo" data-fa-transform="shrink-2"></span></span>'
+                              var orderStatus = '<span class="badge badge rounded-pill d-block badge-soft-primary">Processing<span class="ms-1 fas fa-redo" data-fa-transform="shrink-2"></span></span>'
                             }else if(item.status == 'on hold'){
                               var orderStatus = '<span class="badge badge rounded-pill d-block badge-soft-secondary">On Hold<span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span></span>'
                             }else{

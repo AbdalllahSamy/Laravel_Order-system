@@ -126,10 +126,19 @@ class UserController extends Controller
                 'message' => 'User not found'
             ]);
         }
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $hashPass = Hash::make($request->password);
-        $user->password = $hashPass;
+        if($request->name){
+            $user->name = $request->name;
+        }
+        if($request->premium == 0 || $request->premium == 1){
+            $user->prime = $request->premium;
+        }
+        if($request->email){
+            $user->email = $request->email;
+        }
+        if($request->password){
+            $hashPass = Hash::make($request->password);
+            $user->password = $hashPass;
+        }
         if ($request->file('img')) {
             $des = 'upload/user/' . $user->profile_photo_path;
             File::delete($des);

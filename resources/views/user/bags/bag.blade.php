@@ -66,7 +66,7 @@
                             } else {
                                 var menu_img = '{{ asset('assets/img/user.png') }}'
                             }
-                            if (item.menu.discount) {
+                            if (item.menu.discount && item.user.prime) {
                                 var price = item.menu.discount * item.quantity
                             } else {
                                 var price = item.menu.price * item.quantity
