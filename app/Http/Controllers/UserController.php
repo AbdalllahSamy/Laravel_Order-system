@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::all();
+        $data = User::where('type', 2)->get();
         return response()->json([
             'status' => 200,
             'data' => $data
@@ -68,7 +68,7 @@ class UserController extends Controller
         if ($request->file('img')) {
             $image = time() . 'user.' . $request->img->extension();
             $request->img->move(public_path('upload/user'), $image);
-            $user->img = $image;
+            $user->profile_photo_path = $image;
         }
         $user->save();
         return response()->json([
@@ -135,7 +135,7 @@ class UserController extends Controller
             File::delete($des);
             $image = time() . 'user.' . $request->img->extension();
             $request->img->move(public_path('upload/user'), $image);
-            $user->img = $image;
+            $user->profile_photo_path = $image;
         }
         $user->update();
         return response()->json([

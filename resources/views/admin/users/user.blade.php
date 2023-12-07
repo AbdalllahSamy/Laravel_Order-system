@@ -1,6 +1,6 @@
 @extends('layouts.navbar')
 @section('content-body')
-<div class="card mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+<div class="card mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
     <div class="card-header">
       <div class="row flex-between-center">
         <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
@@ -15,7 +15,7 @@
                 <option value="Archive">Archive</option>
               </select><button class="btn btn-falcon-default btn-sm ms-2" type="button">Apply</button></div>
           </div>
-          <div id="table-customers-replace-element"><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">New</span></button><button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Filter</span></button><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Export</span></button></div>
+          <div id="table-customers-replace-element"><button class="btn btn-falcon-default btn-sm add_user_button" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">New</span></button></div>
         </div>
       </div>
     </div>
@@ -29,8 +29,6 @@
               </th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">Name</th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="email">Email</th>
-              <th class="sort pe-1 align-middle white-space-nowrap" data-sort="phone">Phone</th>
-              <th class="sort pe-1 align-middle white-space-nowrap ps-5" data-sort="address" style="min-width: 200px;">Billing Address</th>
               <th class="sort pe-1 align-middle white-space-nowrap" data-sort="joined">Joined</th>
               <th class="align-middle no-sort"></th>
             </tr>
@@ -45,6 +43,51 @@
       <ul class="pagination mb-0"><li class="active"><button class="page" type="button" data-i="1" data-page="10">1</button></li><li><button class="page" type="button" data-i="2" data-page="10">2</button></li><li><button class="page" type="button" data-i="3" data-page="10">3</button></li></ul><button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
     </div>
   </div>
+  <div class="modal fade" id="add_user_model" tabindex="-1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg mt-6" role="document">
+        <div class="modal-content border-0">
+            <div class="modal-content position-relative">
+                <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">Add User</h4>
+                    </div>
+                    <form action="#" method="POST" id ="add_form" enctype="multipart/form-data">
+                        @csrf
+                        <div class="p-4">
+                            <div class="row" style="justify-content:space-evenly">
+                                <div class="col-lg-6 form-Roles">
+                                    <label class="form-label">Name*</label>
+                                    <input type="text" name="name" class="form-control name_en">
+                                </div>
+
+                                <div class=" col-lg-6 form-Roles">
+                                    <label class="form-label">Email*</label>
+                                    <input type="email" name="email" class="form-control name_ar">
+                                </div>
+                                <div class=" col-lg-12 form-Roles mt-2">
+                                    <label class="form-label">Password*</label>
+                                    <input type="password" name="password" class="form-control name_ar">
+                                </div>
+                                <div class=" col-lg-12 form-Roles mt-2">
+                                    <label class="form-label">Image</label>
+                                    <input type="file" name="img" class="form-control value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer mt-3">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary add_menu" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
   <script>
     $(document).ready(function() {
 
@@ -61,6 +104,12 @@
               success: function(response) {
                   $('.users-table').html('')
                   $.each(response.data, function(key, item) {
+                            const originalDate = new Date(item.created_at);
+                            const formattedDate = originalDate.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            });
                       if (item.profile_photo_path) {
                           var user_img = '{{ asset('upload/user') }}/' + item.profile_photo_path
                       } else {
@@ -73,7 +122,7 @@
                     <td class="name align-middle white-space-nowrap py-2"><a href="customer-details.html">\
                         <div class="d-flex d-flex align-items-center">\
                           <div class="avatar avatar-xl me-2">\
-                            <div class="avatar-name rounded-circle"><span>RA</span></div>\
+                            <img class="rounded-circle" src="'+user_img+'" alt="">\
                           </div>\
                           <div class="flex-1">\
                             <h5 class="mb-0 fs--1">'+item.name+'</h5>\
@@ -81,9 +130,7 @@
                         </div>\
                       </a></td>\
                     <td class="email align-middle py-2"><a href="mailto:ricky@example.com">'+item.email+'</a></td>\
-                    <td class="phone align-middle white-space-nowrap py-2"><a href="tel:2012001851">(201) 200-1851</a></td>\
-                    <td class="address align-middle white-space-nowrap ps-5 py-2">2392 Main Avenue, Penasauka, New Jersey 02139</td>\
-                    <td class="joined align-middle py-2">30/03/2018</td>\
+                    <td class="joined align-middle py-2">'+formattedDate+'</td>\
                     <td class="align-middle white-space-nowrap py-2 text-end">\
                       <div class="dropdown font-sans-serif position-static"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>\
                         <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-0">\
@@ -98,6 +145,45 @@
           })
           
       }
+
+
+      $(document).on('click', '.add_user_button', function(e) {
+          e.preventDefault();
+          $('#add_user_model').modal('show');
+      });
+
+      $('#add_form').submit(function(e) {
+          e.preventDefault();
+          var menuItem = new FormData(this);
+          $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type: "post",
+              url: "/users-action",
+              dataType: "json",
+              data: menuItem,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  if (response.status == 404) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Please fill all data',
+                      });
+                  } else {
+                      $('#add_user_model').modal('hide')
+                      $('#add_form').find('input').val('')
+                      getUsers()
+                      Swal.fire({
+                          icon: 'success',
+                          title: response.message,
+                      })
+                  }
+              }
+          });
+      });
+
 
       $(document).on('click', '.delete_btn_item', function() {
                 var user_id = $(this).val();
